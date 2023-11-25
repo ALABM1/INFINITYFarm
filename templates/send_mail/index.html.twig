@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Send Verification Code{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Send Verification Code</h1>
+
+        {# Afficher un message flash s'il y en a un #}
+        {% for type, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ type }}">{{ message }}</div>
+            {% endfor %}
+        {% endfor %}
+
+        {# Formulaire pour saisir l'adresse e-mail #}
+        <form action="{{ path('send_email') }}" method="post">
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" name="email" required>
+            <button type="submit">Send Code</button>
+        </form>
+    </div>
+{% endblock %}

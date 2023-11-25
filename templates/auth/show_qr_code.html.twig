@@ -1,0 +1,15 @@
+{# templates/auth/show_qr_code.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div>
+        <h1>Votre QR Code</h1>
+        <img src="data:image/png;base64,{{ qrCode }}" alt="QR Code">
+        
+        {# Bouton de téléchargement du QR Code #}
+        <a href="data:image/png;base64,{{ qrCode }}" download="qrcode.png">
+            <button>Télécharger le QR Code</button>
+        </a>
+    </div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{# templates/send_mail/verify_code.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Verify Code{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Verify Code</h1>
+
+        {# Afficher un message flash s'il y en a un #}
+        {% for type, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ type }}">{{ message }}</div>
+            {% endfor %}
+        {% endfor %}
+
+        {# Formulaire pour saisir le code de vérification #}
+        <form action="{{ path('process_verification') }}" method="post">
+            <input type="hidden" name="email" value="{{ email }}">
+            <label for="verification_code">Verification Code:</label>
+            <input type="text" id="verification_code" name="verification_code" required>
+            <button type="submit">Verify</button>
+        </form>
+    </div>
+{% endblock %}

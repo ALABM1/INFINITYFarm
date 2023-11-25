@@ -1,0 +1,13 @@
+#index:
+ #   path: /
+ #   controller: App\Controller\DefaultController::index
+ # config/routes.yaml
+process_reset_password:
+    path: '/process-reset-password'
+    controller: 'App\Controller\MailController::processResetPassword'
+    methods: ['POST']
+
+
+
+
+
