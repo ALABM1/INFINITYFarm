@@ -1,0 +1,86 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Informations sur le terrain{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <br>
+        <br>
+        <h1 style="color: #ff0000" class="m-0 text-center mb-4" style="font-size: 24px;">Informations sur le terrain</h1>
+        <br>
+        <br>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <th class="bg-dark text-white" style="width: 30%;">Nom de terrain</th>
+                    <td style="color: #26ff00;">{{ terrain.nomterrain }}</td>
+                </tr>
+                <tr>
+                    <th class="bg-dark text-white">Localisation</th>
+                    <td style="color: #26ff00;">{{ terrain.localisation }}</td>
+                </tr>
+                <tr>
+                    <th class="bg-dark text-white">Superficie</th>
+                    <td style="color: #26ff00;">{{ terrain.superficie }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <br>
+
+        <h2 style="color: #ff0000" class="m-0 text-center mb-4" style="font-size: 24px;">Ressources du terrain</h2>
+
+        {% if ressources|length > 0 %}
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th class="bg-dark text-white" ;">Type de Ressource</th>
+                        <th class="bg-dark text-white" ;">Spécie</th>
+                        <th class="bg-dark text-white" ;">Quantité</th>
+                        <th class="bg-dark text-white" ;">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for ressource in ressources %}
+                        <tr>
+                            <td style="color: #26ff00;">{{ ressource.typeres }}</td>
+                            <td style="color: #26ff00;">{{ ressource.speciesres }}</td>
+                            <td style="color: #26ff00;">{{ ressource.quantiteres }}</td>
+                            <td>
+                                <a href="{{ path('app_backterrain_edit_ressource', {'idterrain': terrain.idterrain, 'idres': ressource.idres}) }}" class="btn btn-warning">
+                                    <i class="fas fa-edit"></i> Modifier la ressource
+                                </a>
+
+                                <a href="{{ path('app_backterrain_delete_ressource', {'idterrain': terrain.idterrain, 'idres': ressource.idres}) }}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this resource?');">
+                                    <i class="fas fa-trash"></i> Supprimer la ressource
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p>Aucune ressource associée à ce terrain.</p>
+        {% endif %}
+
+        <div class="text-center mt-4">
+            <a href="{{ path('app_backterrain_index') }}" class="btn btn-primary mr-2">
+                <i class="fas fa-arrow-left"></i> Retour à la liste
+            </a>
+
+            <a href="{{ path('app_backterrain_edit', {'idterrain': terrain.idterrain}) }}" class="btn btn-warning mr-2">
+                <i class="fas fa-edit"></i> Éditer
+            </a>
+
+            <form method="post" action="{{ path('app_backterrain_delete', {'idterrain': terrain.idterrain}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');" style="display: inline;">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ terrain.idterrain) }}">
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash"></i> Supprimer
+                </button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

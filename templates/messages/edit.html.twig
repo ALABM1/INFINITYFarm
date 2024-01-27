@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block styles %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border: 1px solid #dcdcdc;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007bff;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+    </style>
+{% endblock %}
+
+{% block title %}Edit Messages{% endblock %}
+
+{% block contenu %}
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <br>
+                <br>
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h1 class="text-center m-0" style="font-size: 24px; color: white">Edit Messages</h1>
+                    </div>
+
+                    <div class="card-body">
+                        {{ include('messages/_form.html.twig', {'button_label': 'Update'}) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container mt-4 d-flex justify-content-center align-items-center">
+            <a href="{{ path('app_messages_index') }}" class="btn btn-primary mr-2">
+                <i class="fas fa-arrow-left"></i> Back to List
+            </a>
+
+            {{ include('messages/_delete_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}

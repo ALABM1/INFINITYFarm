@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('app_backtransac_delete', {'idTra': transaction.idTra}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ transaction.idTra) }}">
+    <br>
+    <button class="btn" style="background-color: #B21807; color: white; border: none; border-radius: 5px; padding: 10px 15px;">supprimer</button>
+</form>

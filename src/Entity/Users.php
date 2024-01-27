@@ -2,73 +2,46 @@
 
 namespace App\Entity;
 
-use App\Repository\UsersRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\ORM\Mapping\Table;
 
-
-use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
-
-#[ORM\Table(name: 'users')]
-#[ORM\Entity(repositoryClass: UsersRepository::class)]
-class Users implements UserInterface
-
+#[Table(name: "Users")]
+#[ORM\Entity]
+class Users
 {
+    public function __toString()
+    {
+        return $this->nom;
+    }
+
     #[ORM\Id]
-    #[ORM\GeneratedValue(strategy: "IDENTITY")]
-    #[ORM\Column(name: "id", type: "integer", nullable: false)]
+    #[ORM\GeneratedValue(strategy: "AUTO")]
+    #[ORM\Column(type: "integer")]
     private ?int $id;
 
-    #[ORM\Column(name: "nom", type: "string", length: 255, nullable: true)]
-    #[Assert\Regex(
-        pattern: '/\d/',
-        match: false,
-        message: 'Le Nom ne doit pas contenir de chiffres.'
-    )]
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     private ?string $nom;
 
-    #[ORM\Column(name: "prenom", type: "string", length: 255, nullable: true)]
-    #[Assert\Regex(
-        pattern: '/\d/',
-        match: false,
-        message: 'Le Prénom ne doit pas contenir de chiffres.'
-    )]
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     private ?string $prenom;
 
-    #[ORM\Column(name: "mail", type: "string", length: 255, nullable: true)]
-    #[Assert\Email(message: 'Veuillez entrer un email valide.')]
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     private ?string $mail;
 
-    #[ORM\Column(name: "numeroTelephone", type: "string", length: 20, nullable: true)]
-    #[Assert\Regex(
-        pattern: '/^\d+$/',
-        message: 'Le numéro de téléphone doit contenir uniquement des chiffres.'
-    )]
-    private ?string $numerotelephone;
-
-    #[ORM\Column(name: "role", type: "string", length: 255, nullable: true)]
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     private ?string $role;
 
-    #[ORM\Column(name: "motDePasse", type: "string", length: 255, nullable: true)]
-    private ?string $motdepasse;
-
-    #[ORM\Column(name: "ville", type: "string", length: 100, nullable: true)]
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
     private ?string $ville;
 
-    #[ORM\Column(name: "sexe", type: "string", length: 10, nullable: true)]
+    #[ORM\Column(type: "string", length: 10, nullable: true)]
     private ?string $sexe;
 
-    #[ORM\Column(name: "profile_image", type: "string", length: 255, nullable: true)]
-    private $profileImage;
+    #[ORM\Column(type: "string", length: 100, nullable: true)]
+    private ?string $specialite;
 
-    /**
-     * @Vich\UploadableField(mapping="profile_images", fileNameProperty="profileImage")
-     * @var File
-     */
-    private $profileImageFile;
-
+    #[ORM\Column(type: "blob", nullable: true)]
+    private ?string $certification;
 
     public function getId(): ?int
     {
@@ -83,7 +56,6 @@ class Users implements UserInterface
     public function setNom(?string $nom): static
     {
         $this->nom = $nom;
-
         return $this;
     }
 
@@ -95,7 +67,6 @@ class Users implements UserInterface
     public function setPrenom(?string $prenom): static
     {
         $this->prenom = $prenom;
-
         return $this;
     }
 
@@ -107,19 +78,6 @@ class Users implements UserInterface
     public function setMail(?string $mail): static
     {
         $this->mail = $mail;
-
-        return $this;
-    }
-
-    public function getNumerotelephone(): ?string
-    {
-        return $this->numerotelephone;
-    }
-
-    public function setNumerotelephone(?string $numerotelephone): static
-    {
-        $this->numerotelephone = $numerotelephone;
-
         return $this;
     }
 
@@ -131,19 +89,6 @@ class Users implements UserInterface
     public function setRole(?string $role): static
     {
         $this->role = $role;
-
-        return $this;
-    }
-
-    public function getMotdepasse(): ?string
-    {
-        return $this->motdepasse;
-    }
-
-    public function setMotdepasse(?string $motdepasse): static
-    {
-        $this->motdepasse = $motdepasse;
-
         return $this;
     }
 
@@ -155,7 +100,6 @@ class Users implements UserInterface
     public function setVille(?string $ville): static
     {
         $this->ville = $ville;
-
         return $this;
     }
 
@@ -167,66 +111,28 @@ class Users implements UserInterface
     public function setSexe(?string $sexe): static
     {
         $this->sexe = $sexe;
-
         return $this;
     }
 
-    public function getProfileImage(): ?string
+    public function getSpecialite(): ?string
     {
-        return $this->profileImage;
+        return $this->specialite;
     }
 
-    public function setProfileImage(?string $profileImage): self
+    public function setSpecialite(?string $specialite): static
     {
-        $this->profileImage = $profileImage;
-
+        $this->specialite = $specialite;
         return $this;
     }
 
-    public function getProfileImageFile(): ?File
+    public function getCertification(): ?string
     {
-        return $this->profileImageFile;
+        return $this->certification;
     }
 
-    public function setProfileImageFile(?File $profileImageFile = null): void
+    public function setCertification(?string $certification): static
     {
-        $this->profileImageFile = $profileImageFile;
-
-        if ($profileImageFile) {
-            // It's required that at least one field changes if you are using doctrine
-            $this->updatedAt = new \DateTimeImmutable();
-        }
+        $this->certification = $certification;
+        return $this;
     }
-    public function getSalt()
-    {
-        // Vous n'avez pas besoin de sel avec les algorithmes modernes de hachage
-        return null;
-    }
-
-    public function eraseCredentials()
-{
-    // Cette méthode est nécessaire pour implémenter l'interface UserInterface,
-    // mais elle n'a pas besoin de faire quoi que ce soit ici
-}
-public function getRoles()
-{
-    // Retournez les rôles de l'utilisateur sous forme de tableau
-    return [$this->role];
-}
-
-public function getPassword()
-{
-    // Retournez le mot de passe de l'utilisateur
-    return $this->motdepasse;
-}
-
-public function getUsername()
-{
-    // Retournez le nom d'utilisateur ou l'adresse e-mail de l'utilisateur
-    return $this->mail;
-}
-
-
-
-
 }

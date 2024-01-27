@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #cb4848;
+            color: #fff;
+        }
+
+        .panne {
+            background-color: #ffcccc;
+        }
+
+        .urgent {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Liste des matériels nécessitant une attention particulière</h2>
+<p class="urgent">Veuillez récupérer ces matériels rapidement.</p>
+
+<table>
+    <thead>
+    <tr>
+        <th>Nom du matériel</th>
+        <th>Nom du parc</th>
+        <th>État</th>
+        <th>Quantité</th>
+        <th>Date d'ajout</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for materiel in materiels %}
+        <tr class="panne{% if materiel.nomparc == 'Infinity Farm' %} urgent{% endif %}">
+            <td>{{ materiel.nommat }}</td>
+            <td>{{ materiel.nomparc }}</td>
+            <td>{{ materiel.etatmat }}</td>
+            <td>{{ materiel.quantitemat }}</td>
+            <td>{{ materiel.dateajout ? materiel.dateajout|date('Y-m-d') : '' }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<div class="advice">
+    <p class="text-center">Conseils :</p>
+    <ul>
+        <li class="text-center">Vérifiez avec vos techniciens immédiatement.</li>
+        <li class="text-center">Consultez le manuel d'utilisation.</li>
+        <li class="text-center">Si nécessaire, contactez le support technique.</li>
+    </ul>
+</div>
+
+<p class="success-message text-center">INFINITYFARM : vos succès agricoles commencent avec nous.</p>
+</body>
+</html>

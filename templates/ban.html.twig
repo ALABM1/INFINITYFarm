@@ -1,0 +1,19 @@
+{# templates/ban.html.twig #}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Banned</title>
+    <div class="logout-button">
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <a href="{{ path('app_logout') }}" class="btn btn-success">Logout</a>
+        {% endif %}
+    </div>
+</head>
+<body>
+<h1>Your account has been banned</h1>
+<p>Sorry, but your account has been banned. Please contact support for further assistance.</p>
+</body>
+</html>

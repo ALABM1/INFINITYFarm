@@ -1,23 +1,100 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
+<html lang="fr">
 
-{% block title %}Send Verification Code{% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 
-{% block body %}
-    <div class="container">
-        <h1>Send Verification Code</h1>
+    <title>Send Verification Code</title>
+    <style>
+        body {
+            background-image: url("/uploads/profile_images/background_infinty.jpg");
+            background-size: cover;
+            background-position: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
 
-        {# Afficher un message flash s'il y en a un #}
-        {% for type, messages in app.flashes %}
-            {% for message in messages %}
-                <div class="alert alert-{{ type }}">{{ message }}</div>
-            {% endfor %}
+        .container {
+            max-width: 400px;
+            margin: auto;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+        <a href="{{ path('app_login') }}" style="color: #000000; text-decoration: none; font-weight: bold; font-size: 16px; margin-right: 20px;">
+            <i class="fas fa-arrow-left" style="margin-top: 1cm;"></i> Retour
+        </a>
+    <div class="login-container">
+        <div class="brand-name" style="font-family: 'Roboto', sans-serif; font-size: 36px; font-weight: bold; color: #4CAF50; text-transform: uppercase;">
+            INFINITY<span style="color: #333;">FARM</span>
+
+        </div>
+
+    {# Afficher un message flash s'il y en a un #}
+    {% for type, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="alert alert-{{ type }}">{{ message }}</div>
         {% endfor %}
+    {% endfor %}
 
-        {# Formulaire pour saisir l'adresse e-mail #}
-        <form action="{{ path('send_email') }}" method="post">
-            <label for="email">E-mail:</label>
-            <input type="email" id="email" name="email" required>
-            <button type="submit">Send Code</button>
-        </form>
-    </div>
-{% endblock %}
+    {# Formulaire pour saisir l'adresse e-mail #}
+    <form action="{{ path('send_email') }}" method="post">
+        <label for="email">E-mail:</label>
+        <input type="email" id="email" name="email" required>
+        <button type="submit">Send Code by Email</button>
+    </form>
+
+    {# Lien vers le template pour envoyer un code par SMS #}
+    <a href="{{ path('reset_sms') }}">Send Code by SMS</a>
+</div>
+</body>
+
+</html>

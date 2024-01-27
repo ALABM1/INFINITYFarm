@@ -1,0 +1,45 @@
+
+<div class="featuristic-container">
+    {{ form_start(form, {'attr': {'class': 'featuristic-form'}}) }}
+        <div class="form-group">
+            {{ form_label(form.categTra, 'Catégorie', {'label_attr': {'class': 'form-label', 'style': 'color: gray;'}}) }}
+            {{ form_widget(form.categTra, {'attr': {'class': 'form-control featuristic-input'}}) }}
+            {{ form_errors(form.categTra) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.typeTra, 'Type', {'label_attr': {'class': 'form-label', 'style': 'color: gray;'}}) }}
+            {{ form_widget(form.typeTra, {'attr': {'class': 'form-control featuristic-input'}}) }}
+            {{ form_errors(form.typeTra) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.dateTra, 'Date', {'label_attr': {'class': 'form-label', 'style': 'color: gray;'}}) }}
+            <div class="input-group date">
+                {{ form_widget(form.dateTra) }}
+                <div class="input-group-addon">
+                    <span class="glyphicon glyphicon-th"></span>
+                </div>
+            </div>
+            {{ form_errors(form.dateTra) }}
+        </div>
+        <br>
+
+        <div class="form-group">
+            {{ form_label(form.montant, 'Montant', {'label_attr': {'class': 'form-label', 'style': 'color: gray;'}}) }}
+            {{ form_widget(form.montant, {'attr': {'class': 'form-control featuristic-input'}}) }}
+            {{ form_errors(form.montant) }}
+        </div>
+
+        <button class="btn featuristic-btn" style="background-color: #2B65EC; color: white; border: none; border-radius: 5px; padding: 10px 15px; text-decoration: none; margin-right: 20px;">{{ button_label|default('Ajouter') }}</button>
+    {{ form_end(form) }}
+</div>
+
+<script>
+    // Activate the Bootstrap Datepicker
+    $('.input-group.date').datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true
+    });
+</script>
+

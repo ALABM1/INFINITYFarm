@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block contenu %}
+   <div class="container mt-4">
+      <h1 class="m-0 text-center mb-4" style="font-size: 24px;">Tableau de Bord</h1>
+      <br>
+      <script src="{{ asset('https://cdn.jsdelivr.net/npm/chart.js') }}></script>
+
+      <canvas id="parcChart"></canvas>
+
+      <script>
+         document.addEventListener('DOMContentLoaded', function () {
+            var parcData = {{ parcData|raw }} || { labels: [], values: [] }; // Ajout d'une vérification
+
+            var ctx = document.getElementById('parcChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+               type: 'bar',
+               data: {
+                  labels: parcData.labels,
+                  datasets: [{
+                     label: 'Superficie des parcs',
+                     data: parcData.values,
+                     backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                     borderColor: 'rgba(75, 192, 192, 1)',
+                     borderWidth: 1
+                  }]
+               },
+               options: {
+                  scales: {
+                     y: {
+                        beginAtZero: true
+                     }
+                  }
+               }
+            });
+         });
+      </script>
+
+   </div>
+{% endblock %}

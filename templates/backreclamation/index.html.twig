@@ -1,0 +1,93 @@
+{% extends 'back1.html.twig' %}
+
+{% block body %}
+    <div class="container my-5">
+        <br>
+    <div style="margin: 20px; background-color: white; color: #C9D1D9; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);">
+
+        <div class="container my-5 text-center"> <!-- Add text-center class -->
+            <h1 class="mb-4">Liste des Reclamations</h1>
+        </div>
+        <!-- Filter Form -->
+        <div class="container mt-5">
+            <form method="get" action="{{ path('app_backreclamations_index') }}" class="mb-4 mx-auto text-center">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <input type="text" name="type" class="form-control" placeholder="Filter by type" value="{{ app.request.query.get('type') }}">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="date" name="dateFrom" class="form-control" placeholder="Date from" value="{{ app.request.query.get('dateFrom') }}">
+                    </div>
+                    <div class="col-md-3">
+                        <input type="date" name="dateTo" class="form-control" placeholder="Date to" value="{{ app.request.query.get('dateTo') }}">
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="text-center">
+                        <a href="{{ path('app_backgenerate_pdf') }}" class="btn btn-success">Generate PDF</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Reclamation Table -->
+        <div class="table-responsive">
+            <table class="table table-striped" style="color: black;">
+                <thead class="table-dark">
+                <tr>
+                    <th>Type</th>
+                    <th>Description</th>
+                    <th>Email</th>
+                    <th>Telephone</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for reclamation in pagination %}
+                    <tr>
+                        <td>{{ reclamation.type }}</td>
+                        <td>{{ reclamation.description }}</td>
+                        <td>{{ reclamation.email }}</td>
+                        <td>{{ reclamation.telephone }}</td>
+                        <td>{{ reclamation.date ? reclamation.date|date('Y-m-d') : '' }}</td>
+                        <td class="d-flex align-items-center">
+                            <a href="{{ path('app_backreclamations_show', {'id': reclamation.id}) }}" class="btn btn-info">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="{{ path('app_backreclamations_edit', {'id': reclamation.id}) }}" class="btn btn-warning ml-2">
+                                <i class="fas fa-edit"></i>
+                            </a>
+
+                            <form method="post" action="{{ path('app_backreclamations_delete', {'id': reclamation.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet élément ?');" class="ml-2">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ reclamation.id) }}">
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="7" class="text-center" style="color: black;">No records found</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+        <!-- Pagination -->
+        <div class="d-flex justify-content-center">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+        <br>
+        <div class="container my-5 text-center"> <!-- Add text-center class -->
+            <a href="{{ path('app_backreclamations_new') }}" class="btn btn-success mt-4">Create New Reclamation</a>
+        </div>
+    </div>
+    </div>
+{% endblock %}

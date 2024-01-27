@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Statistiques des Activités{% endblock %}
+
+{% block contenu %}
+    <div class="container-fluid page-header">
+        <div class="container">
+            <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 400px">
+                <h3 class="display-4 text-white text-uppercase">Statistique des activités</h3>
+                <div class="d-inline-flex text-white">
+                    <p class="m-0 text-uppercase"><a class="text-white" href="">Home</a></p>
+                    <i class="fa fa-angle-double-right pt-1 px-3"></i>
+                    <p class="m-0 text-uppercase">activité</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+
+        <!-- Div pour afficher le graphique Highcharts -->
+        <div id="chart"></div>
+        <br>
+        <a href="{{ path('app_activite_index') }}" class="btn btn-primary">Retour à la page Activités</a>
+
+        <br>
+        <!-- Autres éléments de votre page Twig... -->
+    </div>
+
+    <!-- Inclusion des bibliothèques jQuery et Highcharts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+
+    <!-- Script Highcharts pour afficher le graphique -->
+    <script>
+        $(document).ready(function () {
+            var chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'chart'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        },
+                    },
+                },
+                series: [{
+                    type: 'pie',
+                    name: 'Statistiques',
+                    data: [
+                        ['En Attente', 11],
+                        ['Terminé', 4]
+                    ],
+                }],
+                title: {
+                    text: 'Statistiques des activités'
+                }
+            });
+        });
+    </script>
+{% endblock %}

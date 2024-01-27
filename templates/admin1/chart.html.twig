@@ -1,0 +1,32 @@
+{# templates/admin1/chart.html.twig #}
+{% extends 'base2.html.twig' %}
+
+{% block title %}City Distribution Chart{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>City Distribution Chart</h1>
+
+        {# Incluez le code du graphique en secteurs (pie chart) #}
+        <div id="piechart" style="width: 900px; height: 500px;"></div>
+
+        {# Chargez la bibliothèque Google Charts #}
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+            google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(drawChart);
+
+            function drawChart() {
+                var data = google.visualization.arrayToDataTable({{ chartDataArray|json_encode|raw }});
+
+                var options = {
+                    title: 'Distribution par Ville',
+                    is3D: true,
+                };
+
+                var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+                chart.draw(data, options);
+            }
+        </script>
+    </div>
+{% endblock %}

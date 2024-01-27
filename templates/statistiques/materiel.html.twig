@@ -1,0 +1,41 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Statistique{% endblock %}
+
+{% block contenu %}
+<div class="container mt-4">
+
+<h1>Statistique des Matériaux par Parc</h1>
+
+    <canvas id="parcChart" width="400" height="200"></canvas>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var ctx = document.getElementById('parcChart').getContext('2d');
+        var parcLabels = {{ parcLabels|raw }};
+        var materialCounts = {{ materialCounts|raw }};
+
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: parcLabels,
+                datasets: [{
+                    label: 'Nombre de Matériaux',
+                    data: materialCounts,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</div>
+{% endblock %}

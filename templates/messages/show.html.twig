@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block styles %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 24px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+            text-decoration: none;
+            color: #333;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .btn {
+            display: inline-block;
+            margin-right: 10px;
+        }
+    </style>
+{% endblock %}
+
+{% block contenu %}
+    <div class="container mt-4">
+        <br>
+        <br>
+        <div class="container my-5 text-center">
+            <h1 class="mb-4"> Détails du Message </h1>
+        </div>
+        <br>
+        <table class="table table-striped mt-4">
+            <thead class="thead-dark">
+            <tr>
+                <th>Champ</th>
+                <th>Valeur</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ message.id }}</td>
+            </tr>
+            <tr>
+                <th>Text</th>
+                <td>{{ message.text }}</td>
+            </tr>
+            <tr>
+                <th>Destinataire</th>
+                <td>{{ message.destinataire }}</td>
+            </tr>
+            <tr>
+                <th>Source</th>
+                <td>{{ message.source }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ message.date ? message.date|date('Y-m-d') : '' }}</td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
+        <div class="text-center mt-4">
+            <a href="{{ path('app_messages_index') }}" class="btn btn-primary">
+                <i class="fas fa-arrow-left"></i> Retour à la liste
+            </a>
+
+            <a href="{{ path('app_messages_edit', {'id': message.id}) }}" class="btn btn-warning">
+                <i class="fas fa-edit"></i> Modifier
+            </a>
+
+            <form method="post" action="{{ path('app_messages_delete', {'id': message.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce message ?');" style="display: inline;">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ message.id) }}">
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash-alt"></i> Supprimer
+                </button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

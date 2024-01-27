@@ -1,0 +1,69 @@
+{# Your form template for CategtransType #}
+<link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ asset('css/bootstrap-datepicker.min.css') }}">
+<script src="{{ asset('js/jquery-3.2.1.slim.min.js') }}"></script>
+<script src="{{ asset('js/popper.min.js') }}"></script>
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('js/bootstrap-datepicker.min.js') }}"></script>
+
+{# Your form template #}
+
+<style>
+    .featuristic-container {
+        width: 50%;
+        margin: 0 auto;
+        text-align: center;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+    }
+
+    .featuristic-input {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .featuristic-btn {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .featuristic-btn:hover {
+        background-color: white;
+        color: black;
+        border: 2px solid #4CAF50;
+    }
+</style>
+<div class="featuristic-container">
+    {{ form_start(form, {'attr': {'class': 'featuristic-form'}}) }}
+        <div class="form-group">
+            {{ form_label(form.nomCatTra, 'Nom de la catégorie', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.nomCatTra, {'attr': {'class': 'form-control featuristic-input'}}) }}
+            {{ form_errors(form.nomCatTra) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.descripCatTra, 'Description de la catégorie', {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.descripCatTra, {'attr': {'class': 'form-control featuristic-input'}}) }}
+            {{ form_errors(form.descripCatTra) }}
+        </div>
+
+        <button class="btn featuristic-btn" style="background-color: #6667AB; color: white; border: none; border-radius: 5px; padding: 10px 15px; text-decoration: none; margin-right: 20px;">{{ button_label|default('Ajouter') }}</button>
+    {{ form_end(form) }}
+</div>
+

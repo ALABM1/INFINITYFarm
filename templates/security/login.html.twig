@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+    <title>Login!</title>
+    <style>
+
+        body {
+            background-image: url("/uploads/profile_images/background_infinty.jpg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #4CAF50;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 25px; /* Ajout d'une bordure plus courbée */
+        }
+
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 25px; /* Ajout d'une bordure plus courbée */
+            cursor: pointer;
+            transition: background-color 0.3s; /* Ajout d'une transition pour l'effet de survol */
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+
+        p {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+
+        .brand-name {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #4CAF50;
+        }
+
+    </style>
+</head>
+
+<body>
+<div style="max-width: 400px; margin: auto; margin-top: 50px; display: flex; align-items: center;">
+    <a href="{{ path('app_front') }}" style="color: #000000; text-decoration: none; font-weight: bold; font-size: 16px; margin-right: 20px;">
+        <i class="fas fa-arrow-left" style="margin-top: 1cm;"></i> Retour
+    </a>
+
+    <div class="login-container">
+    <div class="brand-name" style="font-family: 'Roboto', sans-serif; font-size: 36px; font-weight: bold; color: #4CAF50; text-transform: uppercase;">
+        ES<span style="color: #333;">GREEN</span>
+
+    </div>
+
+
+    <h2 style="color: #000000;">Login</h2>
+
+
+
+    <form method="post">
+        {% if error %}
+            <div style="color: red; margin-bottom: 15px;">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+
+        <div class="form-group">
+            <label for="inputEmail"><i class="fas fa-envelope"></i> Email</label>
+            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+        </div>
+
+        <div class="form-group">
+            <label for="inputPassword"><i class="fas fa-lock"></i> Password</label>
+            <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+        </div>
+
+
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+        <button type="submit" style="border-radius: 25px;">Sign in</button>
+    </form>
+
+    <p>Don't have an account? <a href="{{ path('app_register') }}">Sign up</a></p>
+    <p>You forget your Password? <a href="{{ path('app_mail') }}">Reset Password</a></p>
+</div>
+
+</body>
+
+</html>

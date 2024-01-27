@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Matériel associé {% endblock %}
+
+{% block contenu %}
+    <div class="container-fluid page-header">
+        <div class="container">
+            <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 400px">
+                <h3 class="display-4 text-white text-uppercase">Materiels Associé</h3>
+                <div class="d-inline-flex text-white">
+                    <p class="m-0 text-uppercase"><a class="text-white" href="">Home</a></p>
+                    <i class="fa fa-angle-double-right pt-1 px-3"></i>
+                    <p class="m-0 text-uppercase">Materiels Associé</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="container mt-4">
+        <h1 class="text-center mb-4" style="font-size: 24px;">Matériel associé </h1>
+        <br>
+        {# Formulaire de recherche pour le Materiel #}
+        <form method="get" action="{{ path('app_materiel_index') }}" class="mb-4">
+            <div class="d-flex">
+                <div class="flex-grow-1 mr-2">
+                    <div class="form-group">
+                        <input type="text" id="nommat" name="nommat" value="{{ app.request.query.get('nommat') }}" class="form-control" placeholder="Nom du Matériel">
+                    </div>
+                </div>
+                <div class="flex-grow-1 mr-2">
+                    <div class="form-group">
+                        <input type="text" id="etatmat" name="etatmat" value="{{ app.request.query.get('etatmat') }}" class="form-control" placeholder="État ">
+                    </div>
+                </div>
+                <div class="flex-grow-1 mr-2">
+                    <div class="form-group">
+                        <input type="text" id="quantitemat" name="quantitemat" value="{{ app.request.query.get('quantitemat') }}" class="form-control" placeholder="Quantité ">
+                    </div>
+                </div>
+                <div class="flex-grow-1 mr-2">
+                    <div class="form-group">
+                        <input type="text" id="dateajout" name="dateajout" value="{{ app.request.query.get('dateajout') }}" class="form-control" placeholder="Date d'ajout ">
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+        {% if materiels is not empty %}
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                <tr>
+                    <th>Nom de materiel </th>
+                    <th>Etat</th>
+                    <th>Quantite</th>
+                    <th>Date d'ajout</th>
+                    <th>Actions</th>
+                    <!-- Ajoutez d'autres colonnes si nécessaire -->
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in materiels %}
+                    <tr>
+                        <td>{{ item.nommat }}</td>
+                        <td style="background-color: {% if item.etatmat =='On marche' %}palegreen {% elseif item.etatmat =='On panne' %} lightcoral {% endif %}">{{ item.etatmat }}</td>
+                        <td>{{ item.quantitemat }}</td>
+                        <td>{{ item.dateajout ? item.dateajout|date('Y-m-d') : '' }}</td>
+                        <td>
+                            <a href="{{ path('app_materiel_edit', {'idmat': item.idmat}) }}" class="btn btn-warning btn-sm">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <form method="post" action="{{ path('app_materiel_delete', {'idmat': item.idmat}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');" style="display: inline;">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ item.idmat) }}">
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <!-- Afficher la pagination avec Bootstrap styles -->
+            <div class="pagination ">
+                {{ knp_pagination_render(materiels ) }}
+            </div>
+        {% else %}
+            <div class="alert alert-danger text-center" role="alert">
+                <strong>Aucun matériel associé trouvé</strong>
+            </div>
+        {% endif %}
+
+        <br>
+        <div class="text-center mt-4">
+            <a href="{{ path('app_parc_index') }}" class="btn btn-primary">
+                <i class="fas fa-arrow-left"></i> Retour à la liste des parcs
+            </a>
+        </div>
+    </div>
+{% endblock %}

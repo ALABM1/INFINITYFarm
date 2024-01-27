@@ -1,0 +1,65 @@
+{% extends 'back1.html.twig' %}
+
+{% block body %}
+    <div style="margin: 20px; background-color: white; color: #C9D1D9; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);">
+    <div class="container mt-4">
+        <br>
+        <br>
+        <div class="container my-5 text-center"> <!-- Add text-center class -->
+            <h1 class="mb-4"> Détails de la Réclamation
+            </h1>
+        </div>
+        <br>
+        <table class="table table-striped mt-4" style="color: black;">
+            <thead class="thead-dark">
+            <tr>
+                <th>Champ</th>
+                <th>Valeur</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ reclamation.id }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ reclamation.type }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ reclamation.description }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ reclamation.email }}</td>
+            </tr>
+            <tr>
+                <th>Téléphone</th>
+                <td>{{ reclamation.telephone }}</td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
+        <div class="text-center mt-4">
+            <a href="{{ path('app_backreclamations_index') }}" class="btn btn-primary mr-2">
+                <i class="fas fa-arrow-left"></i> Retour à la liste
+            </a>
+
+            <a href="{{ path('app_backreclamations_edit', {'id': reclamation.id}) }}" class="btn btn-warning mr-2">
+                <i class="fas fa-edit"></i> Modifier
+            </a>
+
+            <form method="post" action="{{ path('app_backreclamations_delete', {'id': reclamation.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet élément ?');" style="display: inline;">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ reclamation.id) }}">
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash-alt"></i> Supprimer
+                </button>
+            </form>
+        </div>
+
+
+
+    </div>
+    </div>
+{% endblock %}

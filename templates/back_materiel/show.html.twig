@@ -1,0 +1,57 @@
+{% extends 'adminTemplate.html.twig' %}
+
+{% block title %}Materiel{% endblock %}
+
+{% block contenu %}
+    <br>
+    <br>
+    <div class="container mt-4">
+        <h1 class="text-center mb-4" style="font-size: 24px;">Informations sur le matériel</h1>
+        <br>
+        <table class="table table-bordered">
+            <tbody>
+            <tr>
+                <th class="bg-primary text-white" style="width: 30%;">Materiel</th>
+                <td>{{ materiel.idmat }}</td>
+            </tr>
+            <tr>
+                <th class="bg-primary text-white" style="width: 30%;">Materiel</th>
+                <td>{{ materiel.nommat }}</td>
+            </tr>
+            <tr>
+                <th class="bg-primary text-white">Etat </th>
+                <td>{{ materiel.etatmat }}</td>
+            </tr>
+            <tr>
+                <th class="bg-primary text-white">Quantite</th>
+                <td>{{ materiel.quantitemat }}</td>
+            </tr>
+            <tr>
+                <th class="bg-primary text-white">Date d'ajout</th>
+                <td>{{ materiel.dateajout ? materiel.dateajout|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th class="bg-primary text-white">Parc</th>
+                <td>{{ materiel.nomparc }}</td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
+
+        <div class="text-center mt-4">
+            <a href="{{ path('app_back_materiel_index') }}" class="btn btn-primary mr-2">
+                <i class="fas fa-arrow-left"></i> Retour à la liste
+            </a>
+
+            <a href="{{ path('app_back_materiel_edit', {'idmat': materiel.idmat}) }}" class="btn btn-warning mr-2">
+                <i class="fas fa-edit"></i> Éditer
+            </a>
+            <form method="post" action="{{ path('app_back_materiel_delete', {'idmat': materiel.idmat}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');" style="display: inline;">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ materiel.idmat) }}">
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash"></i>Supprimer
+                </button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

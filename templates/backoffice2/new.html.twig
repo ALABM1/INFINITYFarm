@@ -1,0 +1,14 @@
+{% extends 'back.html.twig' %}
+{% block body %}
+<br>
+   <div style="margin: 20px; background-color: white; color: #C9D1D9; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);">
+
+<br>
+    <h1 style="color: gray;">Ajouter une nouvelle catégorie</h1>
+<br>
+<br>
+    {{ include('backoffice2/_form.html.twig') }}
+<br>
+    <a href="{{ path('app_backcateg_index') }}" style="background-color: #2B60DE; color: white; border: none; border-radius: 5px; padding: 10px 15px; text-decoration: none; margin-right: 20px;">Retour</a>
+</div>
+{% endblock %}

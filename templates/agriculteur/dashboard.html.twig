@@ -1,0 +1,58 @@
+
+{% extends 'base1.html.twig' %}
+
+{% block title %}Tableau de bord Agriculteur{% endblock %}
+
+{% block body %}
+    <h1>Bienvenue sur le tableau de bord, {{ user.nom }}!</h1>
+
+    
+    {% block styles %}
+    <style>
+        .profile-image-container {
+            position: fixed;
+            top: 0;
+            right: 0;
+            margin: 10px;
+            width: 65px; /* Ajustez la largeur selon vos besoins */
+            height: 65px; /* Ajustez la hauteur selon vos besoins */
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .profile-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .default-profile-image {
+            /* Styles pour une image par défaut si nécessaire */
+            width: 100%;
+            height: 100%;
+            background-color: #f0f0f0; /* Couleur de fond par défaut */
+        }
+    </style>
+{% endblock %}
+
+{% block corps %}
+    {# Votre contenu existant #}
+    <a href="/logout" class="btn btn-danger">Déconnexion</a>
+
+
+    <div class="profile-image-container">
+        {% if user.profileImage %}
+            <img src="{{ asset('uploads/profile_images/' ~ user.profileImage) }}" alt="Photo de profil" class="profile-image" />
+        {% else %}
+            <div class="default-profile-image"></div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+
+
+
+    {# Ajoutez d'autres éléments spécifiques à l'agriculteur #}
+
+    
+{% endblock %}

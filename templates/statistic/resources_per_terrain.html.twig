@@ -1,0 +1,75 @@
+{% extends '../base1.html.twig' %}
+
+{% block title %}Statistiques des Ressources par Terrain{% endblock %}
+
+{% block stylesheets %}
+    {# Include Chart.js CSS file if needed #}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/chart.js">
+{% endblock %}
+
+{% block contenu %}
+    <div class="container-fluid page-header">
+        <div class="container">
+            <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 400px">
+                <h3 class="display-4 text-white text-uppercase">Statistique</h3>
+                <div class="d-inline-flex text-white">
+                    <p class="m-0 text-uppercase"><a class="text-white" href="">Home</a></p>
+                    <i class="fa fa-angle-double-right pt-1 px-3"></i>
+                    <p class="m-0 text-uppercase">terrain</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-4">
+        <h1 class="text-center">Statistiques des Ressources par Terrain</h1>
+
+        {# Create a canvas element for the chart #}
+        <canvas id="resourcesChart" width="200" height="100"></canvas>
+
+        {# Include Chart.js library #}
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <script>
+            // Access the data from the PHP variable and convert it to JavaScript
+            var chartData = {{ result|json_encode|raw }};
+
+            // Extract labels and data for the chart
+            var labels = chartData.map(item => item.terrainName);
+            var data = chartData.map(item => item.resourceCount);
+
+            // Round up the maximum value of the data to the nearest integer
+            var maxDataValue = Math.ceil(Math.max(...data));
+
+            // Create a bar chart
+            var ctx = document.getElementById('resourcesChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Resource Count',
+                        data: data,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)', // Adjust color as needed
+                        borderColor: 'rgba(75, 192, 192, 1)', // Adjust color as needed
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1 // Set the step size to 1
+                            },
+                            max: maxDataValue // Set the maximum value to the rounded-up maximum data value
+                        }
+                    }
+                }
+            });
+        </script>
+
+
+        {# Add a button to go back to the terrain index #}
+        <a href="{{ path('app_terrain_index') }}" class="btn btn-primary mt-3">Retour aux terrains</a>
+    </div>
+{% endblock %}

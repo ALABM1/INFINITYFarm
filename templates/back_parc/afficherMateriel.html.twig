@@ -1,0 +1,53 @@
+{% extends 'adminTemplate.html.twig' %}
+
+{% block title %}Matériel associé{% endblock %}
+
+{% block contenu %}
+    <br>
+    <br>
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h1 class="text-center mb-4" style="font-size: 24px;">Matériel associé</h1>
+            </div>
+            <div class="card-body">
+                {% if materiels is not empty %}
+                    <table class="table table-bordered table-striped">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th>ID du Matériel</th>
+                            <th>Nom du Matériel</th>
+                            <th>État du Matériel</th>
+                            <th>Quantité du Matériel</th>
+                            <th>Date d'Ajout</th>
+                            <!-- Ajoutez d'autres colonnes si nécessaire -->
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in materiels %}
+                            <tr>
+                                <td>{{ item.idmat }}</td>
+                                <td>{{ item.nommat }}</td>
+                                <td>{{ item.etatmat }}</td>
+                                <td>{{ item.quantitemat }}</td>
+                                <td>{{ item.dateajout ? item.dateajout|date('Y-m-d') : '' }}</td>
+                                <!-- Ajoutez d'autres colonnes si nécessaire -->
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div class="alert alert-danger text-center" role="alert">
+                        <strong>Aucun matériel associé trouvé</strong>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <br>
+        <div class="text-center mt-4">
+            <a href="{{ path('app_back_parc_index') }}" class="btn btn-primary">
+                <i class="fas fa-arrow-left"></i> Retour à la liste des parcs
+            </a>
+        </div>
+    </div>
+{% endblock %}

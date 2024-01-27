@@ -1,0 +1,94 @@
+{% extends 'back1.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- Ajouter des feuilles de style supplémentaires si nécessaire -->
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+
+        .card {
+            margin-top: 20px;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background-color: #007BFF;
+            border-color: #007BFF;
+        }
+
+        #reclamationsChart {
+            max-width: 800px;
+            margin: auto;
+            margin-top: 20px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h2 class="mb-4">Statistiques des réclamations </h2>
+        <div class="card">
+            <div class="card-body">
+                <form method="get" action="{{ path('app_backreclamations_statistiques') }}" class="row g-3">
+                    <div class="col-md-4">
+                        <label for="dateFrom" class="form-label">From Date</label>
+                        <input type="date" class="form-control" id="dateFrom" name="dateFrom" value="{{ filters.dateFrom }}">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="dateTo" class="form-label">To Date</label>
+                        <input type="date" class="form-control" id="dateTo" name="dateTo" value="{{ filters.dateTo }}">
+                    </div>
+                    <div class="col-md-4 align-self-end">
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="mt-5">
+            <canvas id="reclamationsChart"></canvas>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    <!-- Inclure Chart.js -->
+    <script src="{{ asset('https://cdn.jsdelivr.net/npm/chart.js') }}"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const ctx = document.getElementById('reclamationsChart').getContext('2d');
+            const reclamationsChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: {{ labels|json_encode()|raw }},
+                    datasets: [{
+                        label: 'Nombre de reclamations',
+                        data: {{ data|json_encode()|raw }},
+                        backgroundColor: 'rgba(0, 123, 255, 0.5)',
+                        borderColor: 'rgba(0, 123, 255, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends 'back1.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <style>
+        .container {
+            margin-top: 50px;
+        }
+
+        .card {
+            margin-top: 20px;
+        }
+
+        .form-label {
+            font-weight: bold;
+        }
+
+        .btn-primary {
+            background-color: #007BFF;
+            border-color: #007BFF;
+        }
+
+        #reclamationsChart {
+            max-width: 800px;
+            margin: auto;
+            margin-top: 20px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    {% set date_from = app.request.query.get('dateFrom') %}
+    {% set date_to = app.request.query.get('dateTo') %}
+    <div class="container mt-5">
+        <h2 class="mb-4">Statistiques des réclamations </h2>
+        <div class="card">
+            <div class="card-body">
+                <form method="get" action="{{ path('app_backreclamations_statistiques_advanced') }}" class="row g-3">
+                    <div class="col-md-4">
+                        <label for="dateFrom" class="form-label">From Date</label>
+                        <input type="date" class="form-control" id="dateFrom" name="dateFrom" value="{{ date_from }}">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="dateTo" class="form-label">To Date</label>
+                        <input type="date" class="form-control" id="dateTo" name="dateTo" value="{{ date_to }}">
+                    </div>
+                    <div class="col-md-4 align-self-end">
+                        <button type="submit" class="btn btn-primary">Filter</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="mt-5">
+            <div id="reclamationsByTypeChart"></div>
+        </div>
+        <div class="mt-5">
+            <div id="reclamationsByDateChart"></div>
+        </div>
+        <div class="mt-5">
+            <div id="reclamationsByTimeChart"></div>
+        </div>
+
+    </div>
+{% endblock %}
+
+
+{% block js %}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            google.charts.load('current', {'packages':['bar']});
+            google.charts.setOnLoadCallback(drawCharts);
+
+            function drawCharts() {
+                drawChart('reclamationsByTypeChart', 'Number of Reclamations by Type', {{ reclamationsByTypeData|json_encode()|raw }});
+                drawChart('reclamationsByDateChart', 'Number of Reclamations by Date', {{ reclamationsByDateData|json_encode()|raw }});
+                drawChart('reclamationsByTimeChart', 'Number of Reclamations by Time', {{ reclamationsByTimeData|json_encode()|raw }});
+            }
+
+            function drawChart(chartId, title, chartData) {
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', chartId === 'reclamationsByTimeChart' ? 'Hour' : 'Group');
+                data.addColumn('number', 'Number of Reclamations');
+                data.addRows(Object.entries(chartData).map(function ([key, value]) {
+                    return [key, value];
+                }));
+
+                var options = {
+                    chart: {
+                        title: title,
+                    },
+                    bars: 'vertical'
+                };
+
+                var chart = new google.charts.Bar(document.getElementById(chartId));
+                chart.draw(data, google.charts.Bar.convertOptions(options));
+            }
+        });
+    </script>
+{% endblock %}

@@ -9,18 +9,24 @@
         "php": ">=8.0",
         "ext-ctype": "*",
         "ext-iconv": "*",
-        "bacon/bacon-qr-code": "^2.0",
-        "doctrine/annotations": "^2.0",
+        "aws/aws-sdk-php": "^3.288",
+        "cmen/google-charts-bundle": "^5.0",
+        "doctrine/annotations": "*",
         "doctrine/doctrine-bundle": "^2.11",
         "doctrine/doctrine-migrations-bundle": "^3.3",
-        "doctrine/orm": "^2.16",
-        "endroid/qr-code-bundle": "^5.0",
+        "doctrine/orm": "^2.17",
+        "dompdf/dompdf": "^2.0",
         "google/cloud-vision": "^1.7",
-        "guzzlehttp/guzzle": "^7.0",
+        "knplabs/knp-paginator-bundle": "^5.9",
+        "knplabs/knp-snappy": "^1.4",
+        "knplabs/knp-snappy-bundle": "^1.9",
+        "longitude-one/banned-bundle": "^1.0",
+        "nyholm/psr7": "^1.8",
         "openai-php/client": "^0.8.0",
         "openai/openai": "dev-main",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpstan/phpdoc-parser": "^1.24",
+        "scheb/two-factor-bundle": "^4.18",
         "sensio/framework-extra-bundle": "^6.2",
         "symfony/asset": "5.4.*",
         "symfony/console": "5.4.*",
@@ -31,6 +37,7 @@
         "symfony/form": "5.4.*",
         "symfony/framework-bundle": "5.4.*",
         "symfony/http-client": "5.4.*",
+        "symfony/http-foundation": "5.4.*",
         "symfony/intl": "5.4.*",
         "symfony/mailer": "5.4.*",
         "symfony/mime": "5.4.*",
@@ -49,18 +56,19 @@
         "symfony/validator": "5.4.*",
         "symfony/web-link": "5.4.*",
         "symfony/yaml": "5.4.*",
+        "symfonycasts/verify-email-bundle": "^1.14",
+        "tecnickcom/tcpdf": "^6.6",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0",
+        "twilio/sdk": "^7.12",
         "vich/uploader-bundle": "^2.2"
     },
-    
     "config": {
         "allow-plugins": {
             "composer/package-versions-deprecated": true,
             "php-http/discovery": true,
             "symfony/flex": true,
-            "symfony/runtime": true,
-            "endroid/installer": true
+            "symfony/runtime": true
         },
         "optimize-autoloader": true,
         "preferred-install": {
@@ -109,10 +117,9 @@
         "symfony/browser-kit": "5.4.*",
         "symfony/css-selector": "5.4.*",
         "symfony/debug-bundle": "5.4.*",
-        "symfony/maker-bundle": "^1.50",
+        "symfony/maker-bundle": "^1.0",
         "symfony/phpunit-bridge": "^6.3",
         "symfony/stopwatch": "5.4.*",
         "symfony/web-profiler-bundle": "5.4.*"
     }
-    
 }

@@ -1,0 +1,172 @@
+{% extends '../base1.html.twig' %}
+
+{% block title %}Liste des terrains{% endblock %}
+
+{% block contenu %}
+    <div class="container-fluid page-header">
+        <div class="container">
+            <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 400px">
+                <h3 class="display-4 text-white text-uppercase">Terrain</h3>
+                <div class="d-inline-flex text-white">
+                    <p class="m-0 text-uppercase"><a class="text-white" href="">Home</a></p>
+                    <i class="fa fa-angle-double-right pt-1 px-3"></i>
+                    <p class="m-0 text-uppercase">terrain</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-4">
+        <h1 class="m-0 text-center mb-4" style="font-size: 24px;">Liste des terrains</h1>
+
+        {# Affichage des messages flash #}
+        {% for flashMessage in app.flashes('success') %}
+            <div class="alert alert-success" role="alert">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+
+        {# Formulaire de recherche #}
+        <form method="get" action="{{ path('app_terrain_index') }}" class="mb-4">
+            <div class="d-flex">
+                <div class="flex-grow-1 mr-2">
+                    <div class="form-group">
+                        <input type="text" id="nomterrain" name="nomterrain" value="{{ app.request.query.get('nomterrain') }}" class="form-control" placeholder="Nom du Terrain">
+                    </div>
+                </div>
+                <div class="flex-grow-1 mr-2">
+                    <div class="form-group">
+                        <input type="text" id="localisation" name="localisation" value="{{ app.request.query.get('localisation') }}" class="form-control" placeholder="Localisation du Terrain">
+                    </div>
+                </div>
+                <div class="flex-grow-1 mr-2">
+                    <div class="form-group">
+                        <input type="text" id="superficie" name="superficie" value="{{ app.request.query.get('superficie') }}" class="form-control" placeholder="Superficie du Terrain">
+                    </div>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        {# Tableau des terrains #}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                <tr>
+                    <th><a href="{{ path('app_terrain_index', {'sort': 'nomterrain', 'order': sortField == 'nomterrain' and sortOrder == 'asc' ? 'desc' : 'asc'}) }}">Nom de terrain</a></th>
+                    <th>Localisation</th>
+                    <th>Superficie</th>
+                    <th>Ressources</th>
+                    <th>Actions</th>
+                    <th>Convert to Hectare</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for terrain in terrains %}
+                    <tr>
+                        <td>{{ terrain.nomterrain }}</td>
+                        <td>{{ terrain.localisation }}</td>
+                        <td>{{ terrain.superficie }}</td>
+                        <td>
+                            <a href="{{ path('app_terrain_show', {'idterrain': terrain.idterrain}) }}" class="btn btn-info">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{{ path('app_terrain_edit', {'idterrain': terrain.idterrain}) }}" class="btn btn-warning">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <form method="post" action="{{ path('app_terrain_delete', {'idterrain': terrain.idterrain}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');" style="display: inline;">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ terrain.idterrain) }}">
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </form>
+                        </td>
+                        <td>
+                            <button class="btn btn-success convert-to-hectare" data-superficie="{{ terrain.superficie }}">
+                                <i class="fas fa-ruler"></i>
+                            </button>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6">Aucun enregistrement trouvé</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- Button to navigate to the statistics page -->
+            <a href="{{ path('app_statistic_resources_per_terrain') }}" class="btn btn-primary">
+                Afficher les statistiques
+            </a>
+        </div>
+
+        <br>
+        <div class="text-center">
+            <a href="{{ path('app_terrain_new') }}" class="btn btn-success" id="add-terrain-button">
+                <i class="fas fa-plus"></i> Ajouter terrain
+            </a>
+        </div>
+    </div>
+
+    <!-- JavaScript pour gérer le message temporaire -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Récupération de l'élément du message
+            var successMessage = document.querySelector('.alert-success');
+
+            // Vérification si le message existe
+            if (successMessage) {
+                // Affichage initial du message
+                successMessage.style.display = 'block';
+
+                // Disparition du message après 5 secondes
+                setTimeout(function() {
+                    successMessage.style.display = 'none';
+                }, 5000);
+            }
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var convertButtons = document.querySelectorAll('.convert-to-hectare');
+
+            convertButtons.forEach(function (button) {
+                button.addEventListener('click', function () {
+                    var superficie = parseFloat(this.dataset.superficie);
+                    if (!isNaN(superficie)) {
+                        var superficieInHectare = superficie / 10000;  // 1 square meter = 0.0001 hectare
+
+                        // Utiliser SweetAlert pour afficher la conversion
+                        Swal.fire({
+                            icon: false,  // Ne pas afficher d'icône
+                            title: 'Conversion en Hectare',
+                            html: '<i class="fas fa-ruler"></i><br>Superficie en Hectare : ' + superficieInHectare.toFixed(4),
+                            showCloseButton: true,
+                            showCancelButton: false,
+                            focusConfirm: false,
+                            confirmButtonText: '<i class="fas fa-check"></i>',  // Bouton OK sans texte
+                            confirmButtonAriaLabel: 'OK',
+                        });
+
+                    } else {
+                        // Afficher une alerte en cas de valeur invalide
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Erreur',
+                            text: 'Valeur de superficie invalide',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

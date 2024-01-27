@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Activités</title>
+</head>
+<body>
+<h1>Liste des activités</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Objet de l'activité</th>
+        <th>Description de l'activité</th>
+        <th>Distinataire</th>
+        <th>Espèce de ressource</th>
+        <th>État de l'activité</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for activite in activites %}
+        <tr>
+            <td>{{ activite.objetact }}</td>
+            <td>{{ activite.descriptionact }}</td>
+            <td>{{ activite.distact }}</td>
+            <td>{{ activite.speciesres }}</td>
+            <td>{{ activite.etatact }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</body>
+</html>

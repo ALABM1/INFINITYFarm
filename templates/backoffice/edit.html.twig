@@ -1,0 +1,16 @@
+{% extends 'back.html.twig' %}
+{% block body %}
+<br>
+    <div style="margin: 20px; background-color: white; color: #C9D1D9; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);">
+
+<br>
+    <h1 style="color: gray;">Modifier la transaction</h1>
+<br>
+<br>
+    {{ include('backoffice/_form.html.twig', {'button_label': 'Enregistrer'}) }}
+    <br>
+    <button style="background-color: #1AA260; color: white; border: none; border-radius: 5px; padding: 8px 12px; margin-right: 5px;" onclick="window.location.href='{{ path('app_backtransac_index') }}'">Retour</button>
+
+    {{ include('backoffice/_delete_form.html.twig') }}
+    </div>
+{% endblock %}

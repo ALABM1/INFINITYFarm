@@ -1,0 +1,126 @@
+{% extends 'base1.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
+
+    <div style="max-width: 400px; margin: auto; margin-top: 50px;">
+        <h2 style="text-align: center; margin-bottom: 30px;">Register</h2>
+
+            {{ form_start(registrationForm) }}
+
+        <style>
+            .rounded-input {
+                width: 100%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 20px; /* Ajoutez une bordure arrondie */
+                margin-bottom: 5px;
+                box-sizing: border-box; /* Assurez-vous que la bordure est incluse dans la largeur/hauteur totale */
+            }
+        </style>
+
+            <div style="margin-bottom: 15px;">
+                {{ form_label(registrationForm.nom, null, {'label_attr': {'style': 'display: block; margin-bottom: 5px;'}}) }}
+                {{ form_widget(registrationForm.nom, {'attr': {'class': 'rounded-input'}}) }}
+                {{ form_errors(registrationForm.nom) }}
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                {{ form_label(registrationForm.prenom, null, {'label_attr': {'style': 'display: block; margin-bottom: 5px;'}}) }}
+                {{ form_widget(registrationForm.prenom, {'attr': {'class': 'rounded-input'}}) }}
+                {{ form_errors(registrationForm.prenom) }}
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                {{ form_label(registrationForm.email, null, {'label_attr': {'style': 'display: block; margin-bottom: 5px;'}}) }}
+                {{ form_widget(registrationForm.email, {'attr': {'class': 'rounded-input'}}) }}
+                {{ form_errors(registrationForm.email) }}
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                {{ form_label(registrationForm.role, null, {'label_attr': {'style': 'display: block; margin-bottom: 5px;'}}) }}
+                {{ form_widget(registrationForm.role, {'attr': {'class': 'rounded-input'}}) }}
+                {{ form_errors(registrationForm.role) }}
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                {{ form_label(registrationForm.sexe, null, {'label_attr': {'style': 'display: block; margin-bottom: 5px;'}}) }}
+                {{ form_widget(registrationForm.sexe,{'attr': {'class': 'rounded-input'}}) }}
+                {{ form_errors(registrationForm.sexe) }}
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                {{ form_label(registrationForm.numerotelephone, null, {'label_attr': {'style': 'display: block; margin-bottom: 5px;'}}) }}
+                {{ form_widget(registrationForm.numerotelephone,{'attr': {'class': 'rounded-input'}}) }}
+                {{ form_errors(registrationForm.numerotelephone) }}
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                {{ form_label(registrationForm.ville, null, {'label_attr': {'style': 'display: block; margin-bottom: 5px;'}}) }}
+                {{ form_widget(registrationForm.ville, {'attr': {'class': 'rounded-input'}}) }}
+                {{ form_errors(registrationForm.ville) }}
+            </div>
+
+           
+
+           <div style="margin-bottom: 20px;">
+    {{ form_label(registrationForm.plainPassword, 'Mot de passe', {'label_attr': {'style': 'display: block; margin-bottom: 5px;'}}) }}
+    {{ form_widget(registrationForm.plainPassword,{'attr': {'class': 'rounded-input'}}) }}
+    {{ form_errors(registrationForm.plainPassword) }}
+    </div>
+
+
+                {{ form_row(registrationForm.profileImageFile) }}
+
+
+             <div style="margin-bottom: 50px;">
+              {{ form_label(registrationForm.agreeTerms, 'Accept Terms and Conditions', {'label_attr': {'style': 'display: block; margin-bottom: 10px;'}}) }}
+              <div class="custom-control custom-switch">
+             {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'custom-control-input', 'type': 'checkbox'}}) }}
+             <label class="custom-control-label" for="{{ registrationForm.agreeTerms.vars.id }}">I agree</label>
+             </div>
+            </div>
+
+
+
+        <style>
+            .btn-register {
+                width: 100%;
+                padding: 10px;
+                background-color: #4caf50;
+                color: white;
+                border: none;
+                cursor: pointer;
+                border-radius: 5px; /* Ajoutez une bordure arrondie */
+                transition: background-color 0.3s ease; /* Ajoute une transition pour une animation fluide */
+
+                /* Ajoutez une ombre pour un effet de profondeur */
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+
+            .btn-register:hover {
+                background-color: #45a049; /* Changez la couleur au survol */
+            }
+        </style>
+
+        <button type="submit" class="btn-register" style="border-radius: 25px;">
+            Register
+        </button>
+
+        {{ form_end(registrationForm) }}
+
+
+            <p style="text-align: center; margin-top: 20px;">Already have an account? <a href="{{ path('app_login') }}">Log in</a></p>
+
+       {{ form_end(registrationForm) }}
+
+    </div>
+
+{% endblock %}

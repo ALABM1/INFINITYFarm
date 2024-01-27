@@ -1,0 +1,86 @@
+{% extends 'base_sarra.html.twig' %}
+{% block header %}
+    <!-- Carousel Start --> 
+    <div class="container-fluid p-0">
+        <div id="header-carousel" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img class="w-100" src="{{ asset('img/farm-3.jpg') }}" alt="Image">
+                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                        <div class="p-3" style="max-width: 900px;">
+                            <h4 class="text-white text-uppercase mb-md-3">Statistiques de la caisse</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img class="w-100" src="{{ asset('img/farm-2.jpg') }}" alt="Image">
+                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                        <div class="p-3" style="max-width: 900px;">
+                            <h4 class="text-white text-uppercase mb-md-3">Statistiques de la caisse</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#header-carousel" data-slide="prev">
+                <div class="btn btn-dark" style="width: 45px; height: 45px;">
+                    <span class="carousel-control-prev-icon mb-n2"></span>
+                </div>
+            </a>
+            <a class="carousel-control-next" href="#header-carousel" data-slide="next">
+                <div class="btn btn-dark" style="width: 45px; height: 45px;">
+                    <span class="carousel-control-next-icon mb-n2"></span>
+                </div>
+            </a>
+        </div>
+    </div>
+     <!--Carousel End -->
+{% endblock %}
+{% block body %}
+    <div class="container mt-4">
+        <br>
+        <h1 class="m-0 text-center mb-4" style="font-size: 24px;">Statistiques des Transactions</h1>
+        <br>
+        <script src="{{ asset('https://cdn.jsdelivr.net/npm/chart.js') }}"></script>
+
+        <canvas id="transactionChart"></canvas>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var transactionData = {{ transactionData|json_encode|raw }};
+                transactionData = JSON.parse(transactionData) || { labels: [], revenuValues: [], depenseValues: [] };
+
+                var ctx = document.getElementById('transactionChart').getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: transactionData.labels,
+                        datasets: [{
+                            label: 'Revenu',
+                            data: transactionData.revenuValues,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }, {
+                            label: 'Dépense',
+                            data: transactionData.depenseValues,
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            });
+        </script>
+
+    </div>
+{% endblock %}
+
+
+

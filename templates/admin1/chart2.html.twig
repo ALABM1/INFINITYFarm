@@ -1,0 +1,72 @@
+{% extends 'base2.html.twig' %}
+
+{% block title %}City Distribution Chart{% endblock %}
+
+{% block body %}
+    <head>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+            google.charts.load('current', {'packages':['bar']});
+            google.charts.setOnLoadCallback(drawGenderChart);
+            google.charts.setOnLoadCallback(drawRoleChart);
+
+            function drawGenderChart() {
+                var genderData = new google.visualization.arrayToDataTable([
+                    ['Gender', 'Count', { role: 'style' }],
+                    ['Homme', {{ numberOfMen }}, '#4CAF50'], // Green color
+                    ['Femme', {{ numberOfWomen }}, '#E91E63'] // Pink color
+                ]);
+
+                var genderOptions = {
+                    width: 800,
+                    height: 600,
+                    legend: { position: 'none' },
+                    chart: {
+                        title: 'Distribution Par Genre',
+                        subtitle: 'Count of Men and Women in the Application'
+                    },
+                    axes: {
+                        x: {
+                            0: { side: 'top', label: 'Genre' } // Top x-axis.
+                        }
+                    },
+                    bar: { groupWidth: "30%" }
+                };
+
+                var genderChart = new google.charts.Bar(document.getElementById('gender_chart'));
+                genderChart.draw(genderData, google.charts.Bar.convertOptions(genderOptions));
+            };
+
+            function drawRoleChart() {
+                var roleData = new google.visualization.arrayToDataTable([
+                    ['Role', 'Count', { role: 'style' }],
+                    ['Ouvriers', {{ numberOfWorkers }}, '#2196F3'], // Blue color
+                    ['Agriculteurs', {{ numberOfFarmers }}, '#FF9800'] // Orange color
+                ]);
+
+                var roleOptions = {
+                    width: 800,
+                    height: 600,
+                    legend: { position: 'none' },
+                    chart: {
+                        title: 'Role Distribution',
+                        subtitle: 'Count of Workers and Farmers in the Application'
+                    },
+                    axes: {
+                        x: {
+                            0: { side: 'top', label: 'Role' } // Top x-axis.
+                        }
+                    },
+                    bar: { groupWidth: "30%" }
+                };
+
+                var roleChart = new google.charts.Bar(document.getElementById('role_chart'));
+                roleChart.draw(roleData, google.charts.Bar.convertOptions(roleOptions));
+            };
+        </script>
+    </head>
+    <body style="display: flex; justify-content: center; align-items: center;">
+    <div id="gender_chart" style="width: 800px; height: 600px;"></div>
+    <div id="role_chart" style="width: 800px; height: 600px;"></div>
+    </body>
+{% endblock %}

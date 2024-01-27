@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MailController!{% endblock %}
+
+{% block contenu %}
+    <h1>Validation de l'e-mail</h1>
+
+    {% for flashError in app.flashes('error') %}
+        <div class="alert alert-danger">
+            {{ flashError }}
+        </div>
+    {% endfor %}
+
+    {% for flashSuccess in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ flashSuccess }}
+        </div>
+    {% endfor %}
+{% endblock %}

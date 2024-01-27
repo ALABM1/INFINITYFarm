@@ -1,0 +1,35 @@
+{% extends 'back.html.twig' %}
+{% block body %}
+<br>
+<br>
+<body>
+    <div style="margin: 20px; background-color: white; color: #C9D1D9; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);">
+        <h1 style="color: gray">Catégorie</h1>
+        <br>
+        <table class="table" style="border-collapse: collapse; width: 100%; margin-bottom: 20px; color: black;">
+            <thead>
+                <tr style="background-color: #3D3635; color: white;">
+                    <th>Id catégorie</th>
+                    <th>Nom catégorie</th>
+                    <th>Description catégorie</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr style="border-bottom: 1px solid #ddd;">
+                <td>{{ categtran.idCatTra }}</td>
+                <td>{{ categtran.nomCatTra }}</td>
+                <td>{{ categtran.descripCatTra }}</td>
+            </tr>
+            </tbody>
+        </table>
+        
+        <a href="{{ path('app_backcateg_index') }}" style="background-color: #2B60DE; color: white; border: none; border-radius: 5px; padding: 10px 15px; text-decoration: none; margin-right: 20px;">Retour</a>
+        <a href="{{ path('app_backcateg_edit', {'idCatTra': categtran.idCatTra}) }}" style="background-color: #EAC117; color: white; border: none; border-radius: 5px; padding: 10px 15px; text-decoration: none;">Modifier</a>
+        <br>
+        {{ include('backoffice2/_delete_form.html.twig') }}
+    </div>
+</body>
+{% endblock %}
+
+
+

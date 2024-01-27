@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Template</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #fff;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Reclamations</h1>
+</header>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Email</th>
+        <th>Telephone</th>
+        <th>Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for reclamation in reclamations %}
+        <tr>
+            <td>{{ reclamation.id }}</td>
+            <td>{{ reclamation.type }}</td>
+            <td>{{ reclamation.description }}</td>
+            <td>{{ reclamation.email }}</td>
+            <td>{{ reclamation.telephone }}</td>
+            <td>{{ reclamation.date ? reclamation.date.format('Y-m-d H:i:s') : '' }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</body>
+</html>

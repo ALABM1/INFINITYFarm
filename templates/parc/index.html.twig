@@ -1,0 +1,211 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Index du Parc{% endblock %}
+
+{% block contenu %}
+    <div class="container-fluid page-header">
+        <div class="container">
+            <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 400px">
+                <h3 class="display-4 text-white text-uppercase">Parcs</h3>
+                <div class="d-inline-flex text-white">
+                    <p class="m-0 text-uppercase"><a class="text-white" href="">Home</a></p>
+                    <i class="fa fa-angle-double-right pt-1 px-3"></i>
+                    <p class="m-0 text-uppercase">Parcs</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <br>
+        <br>
+
+        <h1 class="m-0 text-center mb-4" style="font-size: 24px;">Liste des Parcs</h1>
+        <br>
+        {% for flashMessage in app.flashes('done') %}
+            <div id="flash-message" class="alert alert-success" style="display: none;">
+                {{ flashMessage }}
+            </div>
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    // Récupération de l'élément du message
+                    var successMessage = document.getElementById('flash-message');
+
+                    // Vérification si le message existe
+                    if (successMessage) {
+                        // Affichage initial du message
+                        successMessage.style.display = 'block';
+
+                        // Disparition du message après 5 secondes
+                        setTimeout(function() {
+                            successMessage.style.display = 'none';
+                        }, 5000);
+                    }
+                });
+            </script>
+        {% endfor %}
+        {# Formulaire de recherche #}
+        <form method="get" action="{{ path('app_parc_index') }}" class="mb-4">
+            <div class="d-flex">
+                <div class="flex-grow-1 mr-2">
+                    <div class="form-group">
+                        <input type="text" id="nomparc" name="nomparc" value="{{ app.request.query.get('nomparc') }}" class="form-control" placeholder="Nom du Parc">
+                    </div>
+                </div>
+                <div class="flex-grow-1 mr-2">
+                    <div class="form-group">
+                        <input type="text" id="adresseparc" name="adresseparc" value="{{ app.request.query.get('adresseparc') }}" class="form-control" placeholder="Adresse du Parc">
+                    </div>
+                </div>
+                <div class="flex-grow-1 mr-2">
+                    <div class="form-group">
+                        <input type="text" id="superficieparc" name="superficieparc" value="{{ app.request.query.get('superficieparc') }}" class="form-control" placeholder="Superficie du Parc">
+                    </div>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <div class="table-responsive">
+
+            <!-- Tableau pour afficher les informations du parc -->
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th class="bg-dark text-white"> <a href="{{ path('app_parc_index', {'sortBy': 'asc'}) }}" >Nom de parc</a></th>
+                    <th class="bg-dark text-white">Adresse de parc</th>
+                    <th class="bg-dark text-white"><a href="{{ path('app_parc_index', {'sortBySuperficie': 'desc'}) }}" >Superficie de parc</a>
+                    </th>
+                    <th class="bg-dark text-white">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for parc in parcs %}
+                    <tr>
+                        <td>{{ parc.nomparc }}</td>
+                        <td>{{ parc.adresseparc }}</td>
+                        <td>{{ parc.superficieparc }} Hectares</td>
+                        <td>
+                            <a href="{{ path('materiels_par_parc', {'nomparc': parc.nomparc}) }}" class="btn btn-primary" title="Afficher le matériel associé">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="{{ path('app_parc_edit', {'idparc': parc.idparc}) }}" class="btn btn-warning btn-sm">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <form method="post" action="{{ path('app_parc_delete', {'idparc': parc.idparc}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');" style="display: inline;">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ parc.idparc) }}">
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                            <a href="{{ path('app_materiel_new', {'idParc': parc.idParc, 'nomParc': parc.nomParc}) }}" class="btn btn-success" title="Créer un nouveau matériel pour {{ parc.nomParc }}">
+                                <i class="fas fa-plus"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">Aucun enregistrement trouvé</td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+
+            <div class="pagination ">
+                {{ knp_pagination_render(parcs) }}
+            </div>
+
+            <div class="text-right">
+                <button type="button" id="showHideSignatureFormButton" class="btn btn-primary">
+                    Exporter PDF avec Signature <i class="fas fa-file-pdf"></i>
+                </button>
+            </div>
+
+            <br>
+            <div class="text-center">
+                <a href="{{ path('app_parc_new') }}" class="btn btn-success" title="Créer un nouveau parc">
+                    <i class="fas fa-plus"></i> Créer nouveau
+                </a>
+            </div>
+
+
+        </div>
+
+        <br>
+        <script src="{{ asset('https://unpkg.com/signature_pad') }}"></script>
+
+        <div id="signatureForm" class="text-center" style="display: none;">
+            <canvas id="signatureCanvas" class="border border-dark mt-3" width="400" height="200"></canvas>
+            <br>
+            <button type="button" id="clearSignature" class="btn btn-danger mt-3">
+                <i class="fas fa-eraser"></i> Effacer
+            </button>
+            <br>
+            <button type="button" id="submitSignature" class="btn btn-primary mt-3">
+                <i class="fas fa-file-pdf"></i> Exporter PDF
+            </button>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var showHideSignatureFormButton = document.getElementById('showHideSignatureFormButton');
+                var signatureForm = document.getElementById('signatureForm');
+
+                if (showHideSignatureFormButton && signatureForm) {
+                    showHideSignatureFormButton.addEventListener('click', function () {
+                        // Inverser l'état d'affichage du formulaire de signature lors du clic
+                        signatureForm.style.display = signatureForm.style.display === 'none' ? 'block' : 'none';
+                    });
+                }
+            });
+        </script>
+
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var canvas = document.getElementById('signatureCanvas');
+                var signaturePad = new SignaturePad(canvas);
+
+                // Bouton pour effacer la signature
+                var clearButton = document.getElementById('clearSignature');
+                if (clearButton) {
+                    clearButton.addEventListener('click', function () {
+                        signaturePad.clear();
+                    });
+                }
+
+                // Bouton pour soumettre la signature et générer le PDF
+                var submitButton = document.getElementById('submitSignature');
+                if (submitButton) {
+                    submitButton.addEventListener('click', function () {
+                        // Récupérer les données de la signature
+                        var signatureData = signaturePad.toDataURL();
+
+                        // Soumettre la signature au contrôleur Symfony
+                        fetch('/generate-pdf', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ signature: signatureData }),
+                        })
+                            .then(response => response.blob())
+                            .then(blob => {
+                                // Créer une URL pour le fichier PDF
+                                var pdfUrl = URL.createObjectURL(blob);
+
+                                // Ouvrir le PDF dans un nouvel onglet
+                                window.open(pdfUrl, '_blank');
+                            });
+                    });
+                }
+            });
+        </script>
+
+    </div>
+{% endblock %}

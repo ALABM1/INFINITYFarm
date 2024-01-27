@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block contenu %}
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <br>
+                <br>
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h1 class="text-center m-0" style="font-size: 24px; color: white">Edit Reclamations</h1>
+                    </div>
+
+                    <div class="card-body">
+                        {{ include('reclamations/form.html.twig', {'button_label': 'Update'}) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container mt-4 d-flex justify-content-center align-items-center">
+            <a href="{{ path('app_reclamations_index') }}" class="btn btn-primary mr-2">
+                <i class="fas fa-arrow-left"></i> Retour à la liste
+            </a>
+
+            <form method="post" action="{{ path('app_reclamations_delete', {'id': reclamation.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet élément ?');" class="ml-2">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ reclamation.id) }}">
+                <button type="submit" class="btn btn-danger">
+                    <i class="fas fa-trash-alt"></i> Supprimer
+                </button>
+            </form>
+        </div>
+
+
+
+
+    </div>
+{% endblock %}

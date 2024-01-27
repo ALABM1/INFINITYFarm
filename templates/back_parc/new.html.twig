@@ -1,0 +1,31 @@
+{% extends 'adminTemplate.html.twig' %}
+
+{% block title %}New Parc{% endblock %}
+
+{% block contenu %}
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h1 class="card-title">Créer un nouveau Parc</h1>
+                    </div>
+
+                    <div class="card-body">
+                        {{ include('back_parc/form.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="text-center mt-4">
+            <a href="{{ path('app_back_parc_index') }}" class="btn btn-warning mr-2">
+                <i class="fas fa-arrow-left"></i> Retour à la liste
+            </a>
+        </div>
+    </div>
+{% endblock %}

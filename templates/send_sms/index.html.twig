@@ -1,0 +1,35 @@
+{# templates/reset_sms/index.html.twig #}
+
+{% extends 'base1.html.twig' %}
+
+{% block title %}Réinitialisation par SMS{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="text-success">Réinitialisation par SMS</h1>
+
+        {# Ajoutez le contenu spécifique de la page ici #}
+        <p class="lead">
+            Saisissez votre numéro de téléphone pour recevoir le code de vérification.
+        </p>
+
+        <form action="{{ path('send_sms') }}" method="post">
+            <div class="phone-input-group">
+                <label for="phoneNumber">
+
+                    <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">+216</span>
+                    </div>
+                    <input type="text" id="phoneNumber" name="phoneNumber" placeholder="Votre numéro de téléphone" pattern="[0-9]{8}" title="Veuillez entrer 8 chiffres." required>
+                    <button type="submit" class="btn btn-primary">Envoyer le code par SMS</button>
+                </div>
+
+                </label>
+
+            </div>
+
+
+        </form>
+    </div>
+{% endblock %}

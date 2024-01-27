@@ -1,0 +1,115 @@
+{% extends 'base_sarra.html.twig' %}
+{% block head %}
+<head>
+    <meta charset="utf-8">
+    <title>INFINITYFARM - Transactions</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+</head>{% endblock %}
+
+{% block header %}
+    <!-- Carousel Start --> 
+    <div class="container-fluid p-0">
+        <div id="header-carousel" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img class="w-100" src="{{ asset('img/farm-3.jpg') }}" alt="Image">
+                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                        <div class="p-3" style="max-width: 900px;">
+                            <h1 class="display-3 text-white mb-md-4">Liste de transactions</h1>
+                            <h4 class="text-white text-uppercase mb-md-3">Soyez toujours au courant du contenu de votre caisse</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img class="w-100" src="{{ asset('img/farm-2.jpg') }}" alt="Image">
+                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                        <div class="p-3" style="max-width: 900px;">
+                            <h1 class="display-3 text-white mb-md-4">Liste de transactions</h1>
+                            <h4 class="text-white text-uppercase mb-md-3">Soyez toujours au courant du contenu de votre caisse</h4>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#header-carousel" data-slide="prev">
+                <div class="btn btn-dark" style="width: 45px; height: 45px;">
+                    <span class="carousel-control-prev-icon mb-n2"></span>
+                </div>
+            </a>
+            <a class="carousel-control-next" href="#header-carousel" data-slide="next">
+                <div class="btn btn-dark" style="width: 45px; height: 45px;">
+                    <span class="carousel-control-next-icon mb-n2"></span>
+                </div>
+            </a>
+        </div>
+    </div>
+     <!--Carousel End -->
+{% endblock %}
+
+{% block body %}
+<body>
+    <div style="margin: 20px;">
+        <h1 style="color: #8FB31D;">Les Transactions</h1>
+        <br>
+    <p style="font-size: 24px; text-align: center; ">Vous avez {{ difference }} dt dans votre caisse</p>
+        {# Exemple dans un fichier Twig #}
+<form action="{{ path('app_transaction_index') }}" method="get">
+    <label for="category">Catégorie :</label>
+    <input type="text" name="category" id="category">
+
+    <label for="type">Type :</label>
+    <input type="text" name="type" id="type">
+
+    <label for="startDate">Date de début :</label>
+    <input type="date" name="startDate" id="startDate">
+
+    <label for="endDate">Date de fin :</label>
+    <input type="date" name="endDate" id="endDate">
+
+<button type="submit"  style="background-color: #8FB31D; color: white; border: none; border-radius: 5px; padding: 10px 15px;">Rechercher</button></form>
+
+
+            <br>
+        <table class="table" style="border-collapse: collapse; width: 100%; margin-bottom: 20px;">
+            <thead>
+                <tr style="background-color: #3D3635; color: white;">
+                    <th>Catégorie Transaction</th>
+                    <th>Type Transaction</th>
+                    <th>Date Transaction</th>
+                    <th>Montant</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for transaction in transactions %}
+                <tr style="border-bottom: 1px solid #ddd;">
+                    <td>{{ transaction.categTra }}</td>
+                    <td>{{ transaction.typeTra }}</td>
+                    <td>{{ transaction.dateTra ? transaction.dateTra|date('Y-m-d') : '' }}</td>
+                    <td>{{ transaction.montant }}</td>
+                    <td>
+                        <button style="background-color: #4863A0; color: white; border: none; border-radius: 5px; padding: 8px 12px; margin-right: 5px;" onclick="window.location.href='{{ path('app_transaction_show', {'idTra': transaction.idTra}) }}'">Afficher</button>
+                        <button style="background-color: #CB6D51; color: white; border: none; border-radius: 5px; padding: 8px 12px;" onclick="window.location.href='{{ path('app_transaction_edit', {'idTra': transaction.idTra}) }}'">Modifier</button>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6" style="text-align: center;">Aucun enregistrement trouvé.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        
+        <button style="background-color: #8FB31D; color: white; border: none; border-radius: 5px; padding: 10px 15px;" onclick="window.location.href='{{ path('app_transaction_new') }}'">Ajouter</button>
+        <a style="background-color: #8FB31D; color: white; border: none; border-radius: 5px; padding: 10px 15px;" href="{{ path('generate_pdf') }}" target="_blank">Générer PDF</a>
+        <a style="background-color: #8FB31D; color: white; border: none; border-radius: 5px; padding: 10px 15px;" href="{{ path('app_home') }}" target="_blank">Poser une question</a>
+        <a style="background-color: #8FB31D; color: white; border: none; border-radius: 5px; padding: 10px 15px;" href="{{ path('app_statcaisse') }}" target="_blank">voir les statistiques</a>
+    </div>
+</body>
+{% endblock %}
+
+
+

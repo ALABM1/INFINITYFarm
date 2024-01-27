@@ -1,0 +1,44 @@
+{% extends 'adminTemplate.html.twig' %}
+
+{% block stat %}
+    <div class="container mt-4">
+        <br>
+        <h1 class="m-0 text-center mb-4" style="font-size: 24px; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #333;">Parcs par leur superficie</h1>
+        <br>
+        <canvas id="parcChart"></canvas>
+
+        <script src="{{ asset('js/adminlte.min.js') }}"></script>
+        <!-- Autres fichiers JavaScript d'AdminLTE si nécessaire -->
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var parcData = {{ parcData|json_encode|raw }};
+                parcData = JSON.parse(parcData) || { labels: [], values: [] };
+
+                var ctx = document.getElementById('parcChart').getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: parcData.labels,
+                        datasets: [{
+                            label: 'Superficie des parcs',
+                            data: parcData.values,
+                            backgroundColor: 'rgba(0, 123, 255, 0.8)', // Toutes les barres auront la même couleur bleue
+                            borderColor: 'rgba(0, 123, 255, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            });
+
+        </script>
+    </div>
+
+{% endblock %}

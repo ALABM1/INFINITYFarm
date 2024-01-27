@@ -1,0 +1,25 @@
+{# templates/messages/_form.html.twig #}
+
+{{ form_start(form) }}
+<div>
+    <div style="margin-bottom: 10px;">
+        {{ form_widget(form.source, {'attr': {'style': 'display: none;'}}) }}
+        {{ form_widget(form.date, {'attr': {'style': 'display: none;'}}) }}
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        <label for="destinataire">Destinataire:</label>
+        {{ form_widget(form.destinataire, {'attr': {'style': 'width: 100%;'}}) }}
+    </div>
+
+    <div style="margin-bottom: 10px;">
+        {{ form_label(form.text) }}
+        {{ form_widget(form.text, {'attr': {'style': 'width: 100%; height: 150px;'}}) }}
+    </div>
+</div>
+
+<div>
+    <button style="width: 100%;" class="btn btn-primary">{{ button_label|default('Save') }}</button>
+</div>
+
+{{ form_end(form) }}

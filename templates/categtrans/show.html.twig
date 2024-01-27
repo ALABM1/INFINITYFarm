@@ -1,0 +1,78 @@
+{% extends 'base_sarra.html.twig' %}
+{% block head %}
+    <meta charset="utf-8">
+    <title>INFINITYFARM - Catégorie</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+    {% endblock %}
+{% block header %}
+    <!-- Carousel Start --> 
+    <div class="container-fluid p-0">
+        <div id="header-carousel" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img class="w-100" src="{{ asset('img/farm-3.jpg') }}" alt="Image">
+                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                        <div class="p-3" style="max-width: 900px;">
+                            <h1 class="display-3 text-white mb-md-4">Catégorie</h1>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img class="w-100" src="{{ asset('img/farm-2.jpg') }}" alt="Image">
+                    <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                        <div class="p-3" style="max-width: 900px;">
+                            <h1 class="display-3 text-white mb-md-4">Catégorie</h1>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#header-carousel" data-slide="prev">
+                <div class="btn btn-dark" style="width: 45px; height: 45px;">
+                    <span class="carousel-control-prev-icon mb-n2"></span>
+                </div>
+            </a>
+            <a class="carousel-control-next" href="#header-carousel" data-slide="next">
+                <div class="btn btn-dark" style="width: 45px; height: 45px;">
+                    <span class="carousel-control-next-icon mb-n2"></span>
+                </div>
+            </a>
+        </div>
+    </div>
+     <!--Carousel End -->
+{% endblock %}
+{% block title %}Categtrans{% endblock %}
+
+{% block body %}
+<body>
+    <div style="margin: 20px; background-color: white; color: #C9D1D9; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);">
+        <h1 style="color: #8FB31D;">Catégorie</h1>
+        <br>
+        <table class="table" style="border-collapse: collapse; width: 100%; margin-bottom: 20px; color: black;">
+            <thead>
+                <tr style="background-color: #3D3635; color: white;">
+                    <th>Id catégorie</th>
+                    <th>Nom catégorie</th>
+                    <th>Description catégorie</th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr style="border-bottom: 1px solid #ddd;">
+                <td>{{ categtran.idCatTra }}</td>
+                <td>{{ categtran.nomCatTra }}</td>
+                <td>{{ categtran.descripCatTra }}</td>
+            </tr>
+            </tbody>
+        </table>
+        
+        <a href="{{ path('app_categtrans_index') }}" style="background-color: #8FB31D; color: white; border: none; border-radius: 5px; padding: 10px 15px; text-decoration: none; margin-right: 20px;">Retour</a>
+        <a href="{{ path('app_categtrans_edit', {'idCatTra': categtran.idCatTra}) }}" style="background-color: #CB6D51; color: white; border: none; border-radius: 5px; padding: 10px 15px; text-decoration: none;">Modifier</a>
+        <br>
+        {{ include('categtrans/_delete_form.html.twig') }}
+    </div>
+</body>
+{% endblock %}
+
+
+

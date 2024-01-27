@@ -1,0 +1,27 @@
+{% extends 'adminTemplate.html.twig' %}
+
+{% block title %}New Materiel{% endblock %}
+
+{% block contenu %}
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h1 class="text-center m-0" style="font-size: 24px; color: white">Create new Materiel</h1>
+                    </div>
+
+                    <div class="card-body">
+                        {{ include('back_materiel/_form.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="text-center mt-4">
+            <a href="{{ path('app_back_materiel_index') }}" class="btn btn-warning mr-2">
+                <i class="fas fa-arrow-left"></i> Retour à la liste
+            </a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,144 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Index du Matériel{% endblock %}
+
+{% block contenu %}
+    <div class="container-fluid page-header">
+        <div class="container">
+            <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 400px">
+                <h3 class="display-4 text-white text-uppercase">Matériels</h3>
+                <div class="d-inline-flex text-white">
+                    <p class="m-0 text-uppercase"><a class="text-white" href="">Home</a></p>
+                    <i class="fa fa-angle-double-right pt-1 px-3"></i>
+                    <p class="m-0 text-uppercase">Matériels</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-4">
+        <br>
+        <br>
+        <h1 class="m-0 text-center mb-4" style="font-size: 24px;">Liste des Matériels</h1>
+        <br>
+
+        {# Formulaire de recherche pour le Materiel #}
+        <form method="get" action="{{ path('app_materiel_index') }}" class="mb-4">
+            <div class="d-flex">
+                <div class="flex-grow-1 mr-2">
+                    <div class="form-group">
+                        <input type="text" id="nommat" name="nommat" value="{{ app.request.query.get('nommat') }}" class="form-control" placeholder="Nom du Matériel">
+                    </div>
+                </div>
+                <div class="flex-grow-1 mr-2">
+                    <div class="form-group">
+                        <input type="text" id="nomparc" name="nomparc" value="{{ app.request.query.get('nomparc') }}" class="form-control" placeholder="Nom du Parc">
+                    </div>
+                </div>
+                <div class="flex-grow-1 mr-2">
+                    <div class="form-group">
+                        <input type="text" id="etatmat" name="etatmat" value="{{ app.request.query.get('etatmat') }}" class="form-control" placeholder="État ">
+                    </div>
+                </div>
+                <div class="flex-grow-1 mr-2">
+                    <div class="form-group">
+                        <input type="text" id="quantitemat" name="quantitemat" value="{{ app.request.query.get('quantitemat') }}" class="form-control" placeholder="Quantité ">
+                    </div>
+                </div>
+                <div class="flex-grow-1 mr-2">
+                    <div class="form-group">
+                        <input type="text" id="dateajout" name="dateajout" value="{{ app.request.query.get('dateajout') }}" class="form-control" placeholder="Date d'ajout ">
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <div class="table-responsive">
+            <!-- Tableau pour afficher les informations du matériel -->
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th class="bg-dark text-white">Nom de matériel</th>
+                    <th class="bg-dark text-white">Nom du parc</th>
+
+                    <th class="bg-dark text-white">Etat</th>
+                    <th class="bg-dark text-white">Quantite</th>
+                    <th class="bg-dark text-white">Date d'ajout</th>
+                    <th class="bg-dark text-white">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for materiel in materiels %}
+                    <tr>
+                        <td>{{ materiel.nommat }}</td>
+                        <td>{{ materiel.nomparc }}</td>
+
+                        <td style="background-color: {% if materiel.etatmat =='On marche' %}palegreen {% elseif materiel.etatmat =='On panne' %} lightcoral {% endif %}">{{ materiel.etatmat }}</td>
+                        <td>{{ materiel.quantitemat }}</td>
+                        <td>{{ materiel.dateajout ? materiel.dateajout|date('Y-m-d') : '' }}</td>
+                        <td>
+                            <a href="{{ path('app_materiel_show', {'idmat': materiel.idmat}) }}" class="btn btn-info btn-sm">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="{{ path('app_materiel_edit', {'idmat': materiel.idmat}) }}" class="btn btn-warning btn-sm">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <form method="post" action="{{ path('app_materiel_delete', {'idmat': materiel.idmat}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');" style="display: inline;">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ materiel.idmat) }}">
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6">Aucun enregistrement trouvé</td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+            <div class="pagination ">
+                {{ knp_pagination_render(materiels) }}
+            </div>
+
+
+        </div>
+
+        <br>
+        <script>
+            function sendEmail() {
+                console.log('Tentative d\'envoi d\'e-mail...');
+                fetch('https://127.0.0.1:8000/mail/send_email')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Erreur lors de l\'envoi de l\'e-mail');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('E-mail envoyé avec succès:', data);
+                    })
+                    .catch(error => {
+                        console.error('Erreur lors de l\'envoi de l\'e-mail:', error.message);
+                    });
+            }
+
+            // Appeler la fonction pour envoyer un e-mail immédiatement
+            sendEmail();
+
+            // Définir l'intervalle pour envoyer l'e-mail toutes les 3 minutes
+            setInterval(() => {
+                sendEmail();
+            }, 3 * 60 * 1000);
+        </script>
+
+    </div>
+
+{% endblock %}

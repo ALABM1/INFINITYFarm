@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Message{% endblock %}
+
+{% block contenu %}
+    <br>
+    <br>
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h1 class="text-center m-0" style="font-size: 24px; color: white">Create a New Message</h1>
+                    </div>
+
+                    <div class="card-body">
+                        {# Generate a CSRF token #}
+                        {% set csrf_token = csrf_token('message_generate') %}
+
+                        {{ include('messages/_form.html.twig', {
+                            'form': form,
+                            'button_label': 'Save'
+                        }) }}
+
+                        <a href="{{ path('app_messages_index') }}" class="btn btn-secondary mt-3">
+                            <i class="fas fa-arrow-left"></i> Back to List
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Pass the CSRF token to JavaScript #}
+    <script>
+        const csrfToken = '{{ csrf_token }}';
+        const messageTypeSelect = document.getElementById('message_type');
+        const formText = document.getElementById('form_text');
+
+        messageTypeSelect.addEventListener('change', function() {
+            let messageType = this.value;
+
+            fetch('{{ path('app_generate_message_api') }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
+                body: 'messageType=' + messageType + '&_csrf_token=' + csrfToken,
+            })
+                .then(response => response.json())
+                .then(data => {
+                    formText.value = data.message;
+                })
+                .catch(error => {
+                    console.log(error);
+                    // Handle errors as needed
+                });
+        });
+    </script>
+{% endblock %}

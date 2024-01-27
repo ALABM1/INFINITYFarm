@@ -1,0 +1,5 @@
+# config/packages/cmen_google_charts.yaml
+
+cmen_google_charts:
+  language: 'fr'  # Remplacez par la langue souhaitée, par exemple 'en' pour l'anglais
+  version: '46.2'  # Remplacez par la version souhaitée de Google Charts
