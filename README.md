@@ -1,4 +1,4 @@
-INFINITYFARM is a full-stack web application tailored for farmers, crafted by our team, INFINITY.
+💡🌱  INFINITYFARM is a full-stack web application tailored for farmers, crafted by our team, INFINITY. 💡🌱 
 
 👨‍🌾INFINITYFARM is designed to make farming easier by solving many common challenges farmers face every day. Whether it's keeping track of money, organizing fields, or managing equipment, our platform has user-friendly tools to help farmers handle these tasks efficiently.
 
